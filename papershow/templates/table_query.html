@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+
+    <title>Table检索</title>
+
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html"/>
+    <![endif]-->
+
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../static/css/animate.css" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
+
+    <!-- Sweet Alert -->
+    <link href="../static/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+    <!--文件上传css-->
+    <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+    <link rel="stylesheet" href="../static/css/jquery.fileupload.css">
+    <link rel="stylesheet" href="../static/css/jquery.fileupload-ui.css">
+
+    <!--设置标签图标-->
+    <link href="../static/img/favicon.png" rel="shortcut icon"/>
+
+    <!-- 全局js -->
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/sweet-alert.min.js"></script>
+    <script src="../static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="../static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="../static/js/plugins/layer/layer.min.js"></script>
+
+    <!-- 自定义js -->
+    <script src="../static/js/hAdmin.js"></script>
+    <script src="../static/js/content.js"></script>
+
+    <!-- 第三方插件 -->
+    <script src="../static/js/plugins/pace/pace.min.js"></script>
+    <script src="../static/js/plugins/chosen/chosen.jquery.js"></script>
+    <script src="../static/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+
+    <!-- IonRangeSlider -->
+    <link href="../static/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
+    <link href="../static/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+    <script src="../static/js/plugins/chosen/chosen.jquery.js"></script>
+    <script src="../static/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+    <script src="../static/js/demo/form-advanced-demo.js"></script>
+
+
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeIn">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox-title">
+                    <h3>Table检索</h3>
+                </div>
+                <div class="ibox-content">
+                    <div class="hr-line-dashed"></div>
+                    <h5>输入查询词：</h5>
+
+                    <div class="page-container">
+                        <input id="query_word" type="text" style="width:60%">
+                        <button onclick="tquery();" id="btn_query" class="btn btn-primary" type="submit">
+                            <span>搜索</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="hr-line-dashed"></div>
+                    <h5>搜索结果：</h5>
+                    <table class="table table-bordered" id="tb-1">
+                        <thead>
+                            <tr>
+                                <th>论文标题</th>
+                                <th width="500px">Table标题</th>
+                                <th width="80px">原文</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mytbody-results">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="myloading" hidden class="wrapper wrapper-content animated fadeIn">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <h3 style="color: #7266ba">
+                            正在处理,请稍后......
+                        </h3>
+                        <div class="page-container">
+                            <center><img src="../static/img/loading.svg"/></center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    $("#ionrange1").ionRangeSlider({
+        min: 0,
+        max: 10,
+        from: 2,
+        prettify: false,
+        hasGrid: true
+    });
+</script>
+
+<script>
+    function tquery(){
+        var input = document.getElementById('query_word');
+        var form = new FormData();
+        form.append("query_word", input.value);
+        $.ajax({
+            url: "/table_query/tquery",
+            type: "post",
+            data: form,
+            timeout: 30000,  //10s
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                tquery_callback(data);
+            },
+            error: function (XMLHttpRequest, status) { //求完成后最终执行参数
+                swal({
+                    title: "错误信息",
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonColor: '#DD6B55',
+                    text: "status:" + XMLHttpRequest.status + " textinfo:" + status
+                });
+            }
+        });
+    }
+
+     function tquery_callback(data) {
+        var status = data['status'];
+        var results= data['results'];
+        results_msg = "";
+        table_msg = "";
+        if (status) {
+            $.each(results, function (i, f) {
+                results_msg += "<tr>\n" +
+                "<td>" + f[0] + "</td>\n" +
+                "<td>" + f[1] + "</td>\n" +
+                "<td class='tab-xml'><a href='#'>" + f[2] + "</a></td>\n" +
+                "</tr>";
+            });
+            $('#mytbody-results').html(results_msg);
+        } else {
+            $('#mytbody-results').html("");
+            swal({
+                title: "错误信息",
+                type: "error",
+                showCancelButton: false,
+                confirmButtonColor: '#DD6B55',
+                text: '未查询到相关数据！'
+            });
+        }
+    }
+
+    $("#tb-1").on("click", "td", function(e){
+        console.log(e);
+        var target = $(e.currentTarget);
+        console.log(target, target[0]);
+        var tr = e.currentTarget.parentElement;
+        var td = $(tr).find("td");
+        var figure_name = td.eq(2).text();
+        var figure_page_name = td.eq(3).text();
+        var file_name = document.getElementById('paper_title').value;
+        console.log(figure_page_name);
+        //var newWindow = window.open('');
+        var file_name_split = file_name.split(" ");
+        var paper_name = "";
+        for (var i=0; i<file_name_split.length-1; i++)
+            paper_name += file_name_split[i] + "%20";
+        paper_name += file_name_split[i];
+        if (target.hasClass('tab-figure-page')) {
+            window.open("../static/img/papershow/" + paper_name + '/' + figure_page_name);
+        } else if(target.hasClass('tab-figure')) {
+            window.open("../static/img/papershow/" + paper_name + '/' + figure_name);
+        }
+
+        //var figure_page_src = "../static/img/papershow/" + paper_name + '/' + figure_page_name;
+        //console.log(figure_page_src);
+        //newWindow.document.write('<img src='+figure_src+' />');//换成你需要的地址
+        //newWindow.document.write('<img src='+figure_page_src+' />');
+        //window.open("../static/img/papershow/" + paper_name + '/' + figure_name);
+        //window.open("../static/img/papershow/" + paper_name + '/' + figure_page_name);
+        return false;
+    });
+
+    $("#tb-2").on("click","tr",function() {
+        var td = $(this).find("td");
+        var file_name = td.eq(2).text();
+        console.log(file_name);
+        //var newWindow = window.open('');
+        //var file_name_split = file_name.split(" ");
+        //var paper_name = "";
+        //for (var i=0; i<file_name_split.length-1; i++)
+        //    paper_name += file_name_split[i] + "%20";
+        //paper_name += file_name_split[i];
+        //var figure_src = "../static/img/papershow/" + paper_name + '/' + figure_name;
+        //var figure_src = "../static/img/papershow/" + figure_name;
+        //var figure_src = "../static/img/papershow/" + file_name + '/' + figure_name;
+        //var figure_src = "file://D://papershow/static/img/papershow/" + file_name + '/' + figure_name;
+        //console.log(figure_src);
+        //newWindow.document.write('<center><img src='+figure_src+' /></center>');//换成你需要的地址
+        window.open("/static/1.xml");
+        return false;
+	});
+
+</script>
+
+</html>

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+
+    <title>素材查询</title>
+
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html"/>
+    <![endif]-->
+
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../static/css/animate.css" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
+
+    <!-- Sweet Alert -->
+    <link href="../static/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+    <!--文件上传css-->
+    <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+    <link rel="stylesheet" href="../static/css/jquery.fileupload.css">
+    <link rel="stylesheet" href="../static/css/jquery.fileupload-ui.css">
+
+    <!--设置标签图标-->
+    <link href="../static/img/favicon.png" rel="shortcut icon"/>
+
+    <!-- 全局js -->
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/sweet-alert.min.js"></script>
+    <script src="../static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="../static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="../static/js/plugins/layer/layer.min.js"></script>
+
+    <!-- 自定义js -->
+    <script src="../static/js/hAdmin.js"></script>
+    <script src="../static/js/content.js"></script>
+
+    <!-- 第三方插件 -->
+    <script src="../static/js/plugins/pace/pace.min.js"></script>
+    <script src="../static/js/plugins/chosen/chosen.jquery.js"></script>
+    <script src="../static/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+
+    <!-- IonRangeSlider -->
+    <link href="../static/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
+    <link href="../static/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+    <script src="../static/js/plugins/chosen/chosen.jquery.js"></script>
+    <script src="../static/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+    <script src="../static/js/demo/form-advanced-demo.js"></script>
+
+
+</head>
+<body class="gray-bg" onload="load()">
+    <div class="wrapper wrapper-content animated fadeIn">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox-title">
+                    <h3>素材查询</h3>
+                </div>
+                <div class="ibox-content">
+                    <div class="hr-line-dashed"></div>
+                    <h5>输入查询标题：</h5>
+
+                    <div class="page-container">
+                        <input id="paper_title" type="text" style="width:60%">
+                        <button onclick="query();" id="btn_query" class="btn btn-primary" type="submit">
+                            <span>查询</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="hr-line-dashed"></div>
+                    <h5>Figure列表</h5>
+                    <table class="table table-bordered" id="tb-1">
+                        <thead>
+                            <tr>
+                                <th width="50px">图号</th>
+                                <th >图题</th>
+                                <th width="100px" >图片</th>
+                                <th width="150px" >图片页</th>
+                                <th width="70px" >修改</th>
+                                <th width="80px" >审阅</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mytbody-figure">
+                        </tbody>
+                    </table>
+
+                    <div class="hr-line-dashed"></div>
+                    <h5>Table列表</h5>
+                    <table class="table table-bordered" id="tb-2">
+                        <thead>
+                            <tr>
+                                <th width="50px">表号</th>
+                                <th>表题</th>
+                                <th id="tb-tb" width="100px">表文件</th>
+                                <th width="70px">修改</th>
+                                <th width="80px">审阅</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mytbody-table">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="myloading" hidden class="wrapper wrapper-content animated fadeIn">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <h3 style="color: #7266ba">
+                            正在处理,请稍后......
+                        </h3>
+                        <div class="page-container">
+                            <center><img src="../static/img/loading.svg"/></center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    $("#ionrange1").ionRangeSlider({
+        min: 0,
+        max: 10,
+        from: 2,
+        prettify: false,
+        hasGrid: true
+    });
+</script>
+
+<script>
+    function load() {
+        console.log("Document Begin!");
+        var url = location.search;
+        if (url.indexOf("?") != -1) {
+            var paras = url.substr(1);
+            console.log(decodeURIComponent(paras.split("=")[1]));
+            $('#paper_title').val(decodeURIComponent(paras.split("=")[1]));
+            query();
+        }
+    }
+    function query(){
+        var input = document.getElementById('paper_title');
+        var form = new FormData();
+        form.append("paper_title", input.value);
+        $.ajax({
+            url: "/material/query",
+            type: "post",
+            data: form,
+            timeout: 30000,  //10s
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                query_callback(data);
+            },
+            error: function (XMLHttpRequest, status) { //求完成后最终执行参数
+                swal({
+                    title: "错误信息",
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonColor: '#DD6B55',
+                    text: "status:" + XMLHttpRequest.status + " textinfo:" + status
+                });
+            }
+        });
+    }
+
+    function query_callback(data) {
+        var status = data['status'];
+        var paper_id = data['paper_id'];
+        var figures = data['figures'];
+        var tables = data['tables'];
+        var figure_msg = "";
+        var table_msg = "";
+        if (status) {
+            $.each(figures, function (i, f) {
+                var c_id = "f_c_id" + (i+1);
+                var btn_id = "f_btn_id" + (i+1);
+                figure_msg += "<tr>\n" +
+                "<td id="+c_id+">" + f[0] + "</td>\n" +
+                "<td>" + f[1] + "</td>\n" +
+                "<td class='tab-figure'><a href='#'>" + f[2] + "</a></td>\n" +
+                    "<td class='tab-figure-page'><a href='#'>" + f[3] + "</a></td>\n" +
+                    "<td class='tab-figure-button'>" +
+                    "<button id=\"btn_update\" class=\"btn btn-info\" type=\"submit\">\n" +
+                    "                            <span>修改</span>\n</button></td>\n"+
+                    "<td class='check-figure-button'>";
+                if (f[4] == "1"){
+                    figure_msg += "<button id="+btn_id+" class=\"btn btn-success\" type=\"submit\" disabled = true style=\"width:70px\" onclick=\"f_btn(this)\">\n" +
+                    "                            <span>已审阅</span>\n</button></td>\n"+
+                "</tr>";
+                }else{
+                    figure_msg += "<button id="+btn_id+" class=\"btn btn-success\" type=\"submit\" style=\"width:70px\" onclick=\"f_btn(this)\">\n" +
+                    "                            <span>审阅</span>\n</button></td>\n"+
+                "</tr>";
+                }
+            });
+            $('#mytbody-figure').html(figure_msg);
+
+            $.each(tables, function (i, f) {
+                var c_id = "t_c_id" + (i+1);
+                var btn_id = "t_btn_id" + (i+1);
+                table_msg += "<tr>\n" +
+                "<td id="+c_id+">" + f[0] + "</td>\n" +
+                "<td>" + f[1] + "</td>\n" +
+                "<td class='tab-table'><a href='#'>" + f[2] + "</a></td>\n" +
+                    "<td class='tab-table-button'>" +
+                    "<button id=\"btn_update\" class=\"btn btn-info\" type=\"submit\">\n" +
+                    "                            <span>修改</span>\n</button></td>\n"+
+                    "<td class='check-table-button'>";
+                if (f[3] == "1"){
+                    table_msg += "<button id="+btn_id+" class=\"btn btn-success\" type=\"submit\" disabled = true style=\"width:70px\" onclick=\"t_btn(this)\">\n" +
+                    "                            <span>已审阅</span>\n</button></td>\n"+
+                "</tr>";
+                }else{
+                    table_msg += "<button id="+btn_id+" class=\"btn btn-success\" type=\"submit\" style=\"width:70px\" onclick=\"t_btn(this)\">\n" +
+                    "                            <span>审阅</span>\n</button></td>\n"+
+                "</tr>";
+                }
+            });
+            $('#mytbody-table').html(table_msg);
+        } else {
+            $('#mytbody-figure').html("");
+            $('#mytbody-table').html("");
+            swal({
+                title: "错误信息",
+                type: "error",
+                showCancelButton: false,
+                confirmButtonColor: '#DD6B55',
+                text: '未查询到相关数据！'
+            });
+        }
+    }
+
+    $("#tb-1").on("click", "td", function(e){
+        //console.log(e);
+        var target = $(e.currentTarget);
+        //console.log(target, target[0]);
+        var tr = e.currentTarget.parentElement;
+        var td = $(tr).find("td");
+        var figure_id = td.eq(0).text();
+        var figure_title = td.eq(1).text();
+        //console.log(figure_id);
+        //console.log(figure_title);
+        var figure_name = td.eq(2).text();
+        var figure_page_name = td.eq(3).text();
+        var file_name = document.getElementById('paper_title').value;
+        //console.log(figure_page_name);
+        //var newWindow = window.open('');
+        var file_name_split = file_name.split(" ");
+        var paper_name = "";
+        for (var i=0; i<file_name_split.length-1; i++)
+            paper_name += file_name_split[i] + "%20";
+        paper_name += file_name_split[i];
+        if (target.hasClass('tab-figure-page')) {
+            window.open("../static/img/papershow/" + paper_name + '/' + figure_page_name);
+        } else if(target.hasClass('tab-figure')) {
+            window.open("../static/img/papershow/" + paper_name + '/' + figure_name);
+        } else if(target.hasClass('tab-figure-button')){
+            window.location.href = '/update_figure?paper_name='+paper_name+'&figure_id='+figure_id+'&figure_title='+figure_title;
+        } else if(target.hasClass('check-figure-button')){
+            var but = $(target).find("#btn_check");
+        }
+        return false;
+    });
+
+    $("#tb-2").on("click", "td", function(e){
+        //console.log(e);
+        var target = $(e.currentTarget);
+        //console.log(target, target[0]);
+        var tr = e.currentTarget.parentElement;
+        var td = $(tr).find("td");
+        var table_id = td.eq(0).text();
+        var table_title = td.eq(1).text();
+        //console.log(table_id);
+        //console.log(table_title);
+        var table_file_name = td.eq(2).text();
+        var file_name = document.getElementById('paper_title').value;
+        var file_name_split = file_name.split(" ");
+        var paper_name = "";
+        for (var i=0; i<file_name_split.length-1; i++)
+            paper_name += file_name_split[i] + "%20";
+        paper_name += file_name_split[i];
+        if (target.hasClass('tab-table')) {
+            window.open("../../ScientificFigure/data/table_out/data/xml/5.xml");
+        } else if (target.hasClass('tab-table-button')){
+            window.location.href = '/update_table?paper_name='+paper_name+'&table_id='+table_id+'&table_title='+table_title;
+        }
+        return false;
+    });
+
+    function  f_btn(r) {
+        console.log("check button click!");
+        var paper_title = $('#paper_title').val();
+        //alert(paper_title);
+        var clickRow = r.parentNode.parentNode.rowIndex;//获取button行所在table的index
+        var c_id = 'f_c_id' + clickRow;
+        var figure_id = document.getElementById(c_id).innerHTML;
+        //alert(figure_id);
+
+        var form = new FormData();
+        form.append('paper_title', paper_title);
+        form.append("figure_id", figure_id);
+        $.ajax({
+            url: "/figure/check",
+            type: "post",
+            data: form,
+            timeout: 30000,  //10s
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+            },
+            error: function (XMLHttpRequest, status) { //求完成后最终执行参数
+                swal({
+                    title: "错误信息",
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonColor: '#DD6B55',
+                    text: "status:" + XMLHttpRequest.status + " textinfo:" + status
+                });
+            }
+        });
+        $(r).attr('disabled', true);
+        var btn_id = "f_btn_id" + clickRow;
+        document.getElementById(btn_id).innerHTML = "已审阅";
+    }
+    
+    function t_btn(r) {
+        var paper_title = $('#paper_title').val();
+        //alert(paper_title);
+        var clickRow = r.parentNode.parentNode.rowIndex;//获取button行所在table的index
+        var c_id = 't_c_id' + clickRow;
+        var table_id = document.getElementById(c_id).innerHTML;
+        //alert(table_id);
+
+        var form = new FormData();
+        form.append('paper_title', paper_title);
+        form.append("table_id", table_id);
+        $.ajax({
+            url: "/table/check",
+            type: "post",
+            data: form,
+            timeout: 30000,  //10s
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+            },
+            error: function (XMLHttpRequest, status) { //求完成后最终执行参数
+                swal({
+                    title: "错误信息",
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonColor: '#DD6B55',
+                    text: "status:" + XMLHttpRequest.status + " textinfo:" + status
+                });
+            }
+        });
+        $(r).attr('disabled', true);
+        var btn_id = "t_btn_id" + clickRow;
+        document.getElementById(btn_id).innerHTML = "已审阅";
+    }
+
+
+</script>
+
+</html>

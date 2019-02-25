@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document id="1">
+  <tables>
+    <tableRecord id="0">
+      <pageNumInDoc>6</pageNumInDoc>
+      <caption>Table 1: Results on the test set on the English data from the CoNLL-2012 shared task. The final column (Avg. F1) is the main evaluation metric, computed by averaging the F1 of MUC, B3, and CEAF4. We improve state-of-the-art performance by 1.5 F1 for the single model and by 3.1 F1.</caption>
+      <table height="24" width="205" border="1">
+        <thead>
+          <tr>
+            <th />
+            <th>Avg. F1</th>
+            <th>? ;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Our model (ensemble)</td>
+            <td>69.0</td>
+            <td>+1.3</td>
+          </tr>
+          <tr>
+            <td>Our model (single)</td>
+            <td>67.7</td>
+          </tr>
+          <tr>
+            <td>? distance and width features</td>
+            <td>63.9</td>
+            <td>-3.8</td>
+          </tr>
+          <tr>
+            <td>? GloVe embeddings</td>
+            <td>65.3</td>
+            <td>-2.4</td>
+          </tr>
+          <tr>
+            <td>? speaker and genre metadata</td>
+            <td>66.3</td>
+            <td>-1.4</td>
+          </tr>
+          <tr>
+            <td>? head-finding attention</td>
+            <td>66.4</td>
+            <td>-1.3</td>
+          </tr>
+          <tr>
+            <td>? character CNN</td>
+            <td>66.8</td>
+            <td>-0.9</td>
+          </tr>
+          <tr>
+            <td>? Turian embeddings</td>
+            <td>66.9</td>
+            <td>-0.8</td>
+          </tr>
+        </tbody>
+      </table>
+      <footnote />
+      <referenceText>In PAGE 5: ... 8.1 Coreference Results  Table1  compares our model to several previ- ous systems that have driven substantial improve- ments over the past several years on the OntoNotes benchmark. We outperform previous systems in all metrics....</referenceText>
+    </tableRecord>
+    <tableRecord id="1">
+      <pageNumInDoc>8</pageNumInDoc>
+      <caption>Table 4: Examples predictions from the development data. Each row depicts a single coreference cluster predicted by our model. Bold, parenthesized spans indicate mentions in the predicted cluster. The redness of each word indicates the weight of the head-finding attention mechanism (ai,t in Section 4).</caption>
+      <table height="10" width="193" border="1">
+        <thead>
+          <tr>
+            <th />
+            <th />
+            <th />
+            <th />
+            <th />
+            <th />
+            <th>Constituency precision</th>
+            <th>Constituency precision</th>
+            <th>Constituency precision</th>
+            <th>Constituency precision</th>
+            <th>Constituency precision ;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td />
+            <td />
+            <td />
+            <td />
+            <td />
+            <td />
+            <td>Head word precision</td>
+            <td>Head word precision</td>
+            <td>Head word precision</td>
+            <td>Head word precision</td>
+            <td>Head word precision</td>
+          </tr>
+          <tr>
+            <td />
+            <td />
+            <td />
+            <td />
+            <td />
+            <td />
+            <td>Frequency</td>
+            <td>Frequency</td>
+            <td>Frequency</td>
+          </tr>
+          <tr />
+          <tr />
+          <tr>
+            <td>%</td>
+          </tr>
+          <tr />
+          <tr />
+          <tr />
+          <tr />
+          <tr />
+          <tr>
+            <td />
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+            <td>4</td>
+            <td>5</td>
+            <td>6</td>
+            <td>7</td>
+            <td>8</td>
+            <td>9</td>
+            <td>10</td>
+          </tr>
+          <tr>
+            <td />
+            <td />
+            <td />
+            <td />
+            <td />
+            <td>Span width</td>
+            <td>Span width</td>
+          </tr>
+        </tbody>
+      </table>
+      <footnote />
+      <referenceText>In PAGE 8: ... 9.4 Qualitative Analysis Our qualitative analysis in  Table4  highlights the strengths and weaknesses of our model. Each row is a visualization of a single coreference cluster predicted by the model....</referenceText>
+    </tableRecord>
+  </tables>
+  <FileName>1.pdf</FileName>
+  <pageNum>10</pageNum>
+  <errorMsg />
+</document>
+

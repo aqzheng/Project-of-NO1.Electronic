@@ -1,0 +1,414 @@
+{
+  "chunks": [
+    {
+      "font": "Calibri",
+      "fontSize": 7,
+      "type": "type_unclassified",
+      "words": [
+        {
+          "t": "Official",
+          "fId": 11,
+          "sId": 12,
+          "id": 106,
+          "w": 20,
+          "h": 7,
+          "x": 226,
+          "y": 619,
+          "i": 269
+        },
+        {
+          "t": "Language",
+          "fId": 11,
+          "sId": 12,
+          "id": 106,
+          "w": 27,
+          "h": 7,
+          "x": 247,
+          "y": 619,
+          "i": 270
+        },
+        {
+          "t": "Language",
+          "fId": 11,
+          "sId": 12,
+          "id": 106,
+          "w": 27,
+          "h": 7,
+          "x": 208,
+          "y": 632,
+          "i": 278
+        }
+      ],
+      "id": 105,
+      "w": 66,
+      "h": 20,
+      "x": 208,
+      "y": 619,
+      "i": 269
+    },
+    {
+      "font": "Calibri",
+      "fontSize": 8,
+      "type": "type_unclassified",
+      "words": [
+        {
+          "t": "Paramount",
+          "fId": 11,
+          "sId": 10,
+          "id": 110,
+          "w": 35,
+          "h": 8,
+          "x": 100,
+          "y": 578,
+          "i": 263
+        },
+        {
+          "t": "Pictures",
+          "fId": 11,
+          "sId": 10,
+          "id": 110,
+          "w": 25,
+          "h": 8,
+          "x": 105,
+          "y": 587,
+          "i": 264
+        }
+      ],
+      "id": 109,
+      "w": 35,
+      "h": 17,
+      "x": 100,
+      "y": 578,
+      "i": 263
+    },
+    {
+      "font": "Calibri",
+      "fontSize": 8,
+      "type": "type_unclassified",
+      "words": [
+        {
+          "t": "Norway",
+          "fId": 11,
+          "sId": 10,
+          "id": 113,
+          "w": 25,
+          "h": 8,
+          "x": 165,
+          "y": 699,
+          "i": 262
+        }
+      ],
+      "id": 112,
+      "w": 25,
+      "h": 8,
+      "x": 165,
+      "y": 699,
+      "i": 262
+    },
+    {
+      "font": "Calibri",
+      "fontSize": 7,
+      "type": "type_unclassified",
+      "words": [
+        {
+          "t": "Language",
+          "fId": 11,
+          "sId": 12,
+          "id": 115,
+          "w": 27,
+          "h": 7,
+          "x": 157,
+          "y": 655,
+          "i": 275
+        },
+        {
+          "t": "of",
+          "fId": 11,
+          "sId": 12,
+          "id": 115,
+          "w": 6,
+          "h": 7,
+          "x": 185,
+          "y": 655,
+          "i": 276
+        },
+        {
+          "t": "Film",
+          "fId": 11,
+          "sId": 12,
+          "id": 115,
+          "w": 12,
+          "h": 7,
+          "x": 192,
+          "y": 655,
+          "i": 277
+        }
+      ],
+      "id": 114,
+      "w": 47,
+      "h": 7,
+      "x": 157,
+      "y": 655,
+      "i": 275
+    },
+    {
+      "font": "Calibri",
+      "fontSize": 7,
+      "type": "type_unclassified",
+      "words": [
+        {
+          "t": "Official",
+          "fId": 11,
+          "sId": 12,
+          "id": 119,
+          "w": 19,
+          "h": 7,
+          "x": 198,
+          "y": 683,
+          "i": 271
+        },
+        {
+          "t": "Language",
+          "fId": 11,
+          "sId": 12,
+          "id": 119,
+          "w": 26,
+          "h": 7,
+          "x": 219,
+          "y": 683,
+          "i": 272
+        }
+      ],
+      "id": 118,
+      "w": 47,
+      "h": 7,
+      "x": 198,
+      "y": 683,
+      "i": 271
+    },
+    {
+      "font": "Calibri",
+      "fontSize": 7,
+      "type": "type_unclassified",
+      "words": [
+        {
+          "t": "Release",
+          "fId": 11,
+          "sId": 12,
+          "id": 122,
+          "w": 21,
+          "h": 7,
+          "x": 116,
+          "y": 684,
+          "i": 266
+        },
+        {
+          "t": "Region",
+          "fId": 11,
+          "sId": 12,
+          "id": 122,
+          "w": 19,
+          "h": 7,
+          "x": 139,
+          "y": 684,
+          "i": 267
+        }
+      ],
+      "id": 121,
+      "w": 42,
+      "h": 7,
+      "x": 116,
+      "y": 684,
+      "i": 266
+    },
+    {
+      "font": "Calibri",
+      "fontSize": 7,
+      "type": "type_unclassified",
+      "words": [
+        {
+          "t": "Director",
+          "fId": 11,
+          "sId": 12,
+          "id": 125,
+          "w": 23,
+          "h": 7,
+          "x": 125,
+          "y": 632,
+          "i": 268
+        },
+        {
+          "t": "Company",
+          "fId": 11,
+          "sId": 12,
+          "id": 125,
+          "w": 26,
+          "h": 7,
+          "x": 94,
+          "y": 619,
+          "i": 274
+        }
+      ],
+      "id": 124,
+      "w": 54,
+      "h": 20,
+      "x": 94,
+      "y": 619,
+      "i": 274
+    },
+    {
+      "font": "Calibri",
+      "fontSize": 8,
+      "type": "type_unclassified",
+      "words": [
+        {
+          "t": "English",
+          "fId": 11,
+          "sId": 10,
+          "id": 128,
+          "w": 23,
+          "h": 8,
+          "x": 253,
+          "y": 655,
+          "i": 265
+        }
+      ],
+      "id": 127,
+      "w": 23,
+      "h": 8,
+      "x": 253,
+      "y": 655,
+      "i": 265
+    },
+    {
+      "font": "Calibri",
+      "fontSize": 7,
+      "type": "type_unclassified",
+      "words": [
+        {
+          "t": "Country",
+          "fId": 11,
+          "sId": 12,
+          "id": 130,
+          "w": 22,
+          "h": 7,
+          "x": 166,
+          "y": 583,
+          "i": 273
+        }
+      ],
+      "id": 129,
+      "w": 22,
+      "h": 7,
+      "x": 166,
+      "y": 583,
+      "i": 273
+    },
+    {
+      "font": "Calibri",
+      "fontSize": 8,
+      "type": "type_unclassified",
+      "words": [
+        {
+          "t": "Robert",
+          "fId": 11,
+          "sId": 10,
+          "id": 132,
+          "w": 22,
+          "h": 8,
+          "x": 167,
+          "y": 616,
+          "i": 258
+        },
+        {
+          "t": "Zemeckis",
+          "fId": 11,
+          "sId": 10,
+          "id": 132,
+          "w": 29,
+          "h": 8,
+          "x": 163,
+          "y": 625,
+          "i": 259
+        }
+      ],
+      "id": 131,
+      "w": 29,
+      "h": 17,
+      "x": 163,
+      "y": 616,
+      "i": 258
+    },
+    {
+      "font": "Calibri",
+      "fontSize": 8,
+      "type": "type_unclassified",
+      "words": [
+        {
+          "t": "Forrest",
+          "fId": 11,
+          "sId": 10,
+          "id": 135,
+          "w": 23,
+          "h": 8,
+          "x": 85,
+          "y": 650,
+          "i": 256
+        },
+        {
+          "t": "Gump",
+          "fId": 11,
+          "sId": 10,
+          "id": 135,
+          "w": 20,
+          "h": 8,
+          "x": 87,
+          "y": 659,
+          "i": 257
+        }
+      ],
+      "id": 134,
+      "w": 23,
+      "h": 17,
+      "x": 85,
+      "y": 650,
+      "i": 256
+    },
+    {
+      "font": "Calibri",
+      "fontSize": 8,
+      "type": "type_unclassified",
+      "words": [
+        {
+          "t": "United",
+          "fId": 11,
+          "sId": 10,
+          "id": 138,
+          "w": 21,
+          "h": 8,
+          "x": 225,
+          "y": 578,
+          "i": 260
+        },
+        {
+          "t": "States",
+          "fId": 11,
+          "sId": 10,
+          "id": 138,
+          "w": 19,
+          "h": 8,
+          "x": 226,
+          "y": 587,
+          "i": 261
+        }
+      ],
+      "id": 137,
+      "w": 21,
+      "h": 17,
+      "x": 225,
+      "y": 578,
+      "i": 260
+    }
+  ],
+  "words": []
+}

@@ -1,0 +1,405 @@
+{
+  "chunks": [
+    {
+      "font": "Helvetica",
+      "fontSize": 5,
+      "type": "type_unclassified",
+      "words": [
+        {
+          "t": "0.8",
+          "fId": 0,
+          "sId": 1,
+          "id": 1,
+          "w": 7,
+          "h": 5,
+          "x": 353,
+          "y": 265,
+          "i": 496
+        }
+      ],
+      "id": 0,
+      "w": 7,
+      "h": 5,
+      "x": 353,
+      "y": 265,
+      "i": 496
+    },
+    {
+      "font": "Helvetica",
+      "fontSize": 5,
+      "type": "type_unclassified",
+      "words": [
+        {
+          "t": "10",
+          "fId": 0,
+          "sId": 1,
+          "id": 3,
+          "w": 6,
+          "h": 5,
+          "x": 376,
+          "y": 297,
+          "i": 489
+        }
+      ],
+      "id": 2,
+      "w": 6,
+      "h": 5,
+      "x": 376,
+      "y": 297,
+      "i": 489
+    },
+    {
+      "font": "Helvetica",
+      "fontSize": 5,
+      "type": "type_unclassified",
+      "words": [
+        {
+          "t": "0.75",
+          "fId": 0,
+          "sId": 1,
+          "id": 5,
+          "w": 10,
+          "h": 5,
+          "x": 350,
+          "y": 279,
+          "i": 495
+        }
+      ],
+      "id": 4,
+      "w": 10,
+      "h": 5,
+      "x": 350,
+      "y": 279,
+      "i": 495
+    },
+    {
+      "font": "Helvetica",
+      "fontSize": 5,
+      "type": "type_unclassified",
+      "words": [
+        {
+          "t": "1",
+          "fId": 0,
+          "sId": 1,
+          "id": 7,
+          "w": 3,
+          "h": 5,
+          "x": 357,
+          "y": 208,
+          "i": 500
+        }
+      ],
+      "id": 6,
+      "w": 3,
+      "h": 5,
+      "x": 357,
+      "y": 208,
+      "i": 500
+    },
+    {
+      "font": "Helvetica",
+      "fontSize": 5,
+      "type": "type_unclassified",
+      "words": [
+        {
+          "t": "0.95",
+          "fId": 0,
+          "sId": 1,
+          "id": 9,
+          "w": 10,
+          "h": 5,
+          "x": 350,
+          "y": 222,
+          "i": 499
+        }
+      ],
+      "id": 8,
+      "w": 10,
+      "h": 5,
+      "x": 350,
+      "y": 222,
+      "i": 499
+    },
+    {
+      "font": "Helvetica",
+      "fontSize": 5,
+      "type": "type_unclassified",
+      "words": [
+        {
+          "t": "0.9",
+          "fId": 0,
+          "sId": 1,
+          "id": 11,
+          "w": 7,
+          "h": 5,
+          "x": 353,
+          "y": 236,
+          "i": 498
+        }
+      ],
+      "id": 10,
+      "w": 7,
+      "h": 5,
+      "x": 353,
+      "y": 236,
+      "i": 498
+    },
+    {
+      "font": "Helvetica",
+      "fontSize": 11,
+      "type": "type_unclassified",
+      "words": [
+        {
+          "t": "AUC",
+          "fId": 0,
+          "sId": 1,
+          "id": 13,
+          "w": 5,
+          "h": 11,
+          "x": 342,
+          "y": 247,
+          "i": 503
+        }
+      ],
+      "id": 12,
+      "w": 5,
+      "h": 11,
+      "x": 342,
+      "y": 247,
+      "i": 503
+    },
+    {
+      "font": "Helvetica",
+      "fontSize": 5,
+      "type": "type_unclassified",
+      "words": [
+        {
+          "t": "0.85",
+          "fId": 0,
+          "sId": 1,
+          "id": 15,
+          "w": 10,
+          "h": 5,
+          "x": 350,
+          "y": 251,
+          "i": 497
+        }
+      ],
+      "id": 14,
+      "w": 10,
+      "h": 5,
+      "x": 350,
+      "y": 251,
+      "i": 497
+    },
+    {
+      "font": "Helvetica",
+      "fontSize": 5,
+      "type": "type_unclassified",
+      "words": [
+        {
+          "t": "20",
+          "fId": 0,
+          "sId": 1,
+          "id": 17,
+          "w": 5,
+          "h": 5,
+          "x": 407,
+          "y": 297,
+          "i": 490
+        },
+        {
+          "t": "30",
+          "fId": 0,
+          "sId": 1,
+          "id": 17,
+          "w": 6,
+          "h": 5,
+          "x": 437,
+          "y": 297,
+          "i": 491
+        },
+        {
+          "t": "Truncation",
+          "fId": 0,
+          "sId": 1,
+          "id": 17,
+          "w": 24,
+          "h": 5,
+          "x": 414,
+          "y": 302,
+          "i": 501
+        },
+        {
+          "t": "Level",
+          "fId": 0,
+          "sId": 1,
+          "id": 17,
+          "w": 13,
+          "h": 5,
+          "x": 439,
+          "y": 302,
+          "i": 502
+        }
+      ],
+      "id": 16,
+      "w": 45,
+      "h": 10,
+      "x": 407,
+      "y": 297,
+      "i": 490
+    },
+    {
+      "font": "Helvetica",
+      "fontSize": 5,
+      "type": "type_unclassified",
+      "words": [
+        {
+          "t": "50",
+          "fId": 0,
+          "sId": 1,
+          "id": 22,
+          "w": 6,
+          "h": 5,
+          "x": 498,
+          "y": 297,
+          "i": 493
+        }
+      ],
+      "id": 21,
+      "w": 6,
+      "h": 5,
+      "x": 498,
+      "y": 297,
+      "i": 493
+    },
+    {
+      "font": "Helvetica",
+      "fontSize": 5,
+      "type": "type_unclassified",
+      "words": [
+        {
+          "t": "MedLFRM",
+          "fId": 0,
+          "sId": 1,
+          "id": 24,
+          "w": 24,
+          "h": 5,
+          "x": 409,
+          "y": 280,
+          "i": 504
+        },
+        {
+          "t": "with",
+          "fId": 0,
+          "sId": 1,
+          "id": 24,
+          "w": 9,
+          "h": 5,
+          "x": 435,
+          "y": 280,
+          "i": 505
+        },
+        {
+          "t": "feature",
+          "fId": 0,
+          "sId": 1,
+          "id": 24,
+          "w": 16,
+          "h": 5,
+          "x": 445,
+          "y": 280,
+          "i": 506
+        },
+        {
+          "t": "MedLFRM",
+          "fId": 0,
+          "sId": 1,
+          "id": 24,
+          "w": 24,
+          "h": 5,
+          "x": 409,
+          "y": 286,
+          "i": 507
+        },
+        {
+          "t": "without",
+          "fId": 0,
+          "sId": 1,
+          "id": 24,
+          "w": 16,
+          "h": 5,
+          "x": 435,
+          "y": 286,
+          "i": 508
+        },
+        {
+          "t": "features",
+          "fId": 0,
+          "sId": 1,
+          "id": 24,
+          "w": 19,
+          "h": 5,
+          "x": 452,
+          "y": 286,
+          "i": 509
+        }
+      ],
+      "id": 23,
+      "w": 62,
+      "h": 11,
+      "x": 409,
+      "y": 280,
+      "i": 504
+    },
+    {
+      "font": "Helvetica",
+      "fontSize": 5,
+      "type": "type_unclassified",
+      "words": [
+        {
+          "t": "40",
+          "fId": 0,
+          "sId": 1,
+          "id": 31,
+          "w": 5,
+          "h": 5,
+          "x": 468,
+          "y": 297,
+          "i": 492
+        }
+      ],
+      "id": 30,
+      "w": 5,
+      "h": 5,
+      "x": 468,
+      "y": 297,
+      "i": 492
+    },
+    {
+      "font": "Helvetica",
+      "fontSize": 5,
+      "type": "type_unclassified",
+      "words": [
+        {
+          "t": "0.7",
+          "fId": 0,
+          "sId": 1,
+          "id": 33,
+          "w": 7,
+          "h": 5,
+          "x": 353,
+          "y": 293,
+          "i": 494
+        }
+      ],
+      "id": 32,
+      "w": 7,
+      "h": 5,
+      "x": 353,
+      "y": 293,
+      "i": 494
+    }
+  ],
+  "words": []
+}

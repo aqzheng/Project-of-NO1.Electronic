@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+
+    <title>数据加工</title>
+
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html"/>
+    <![endif]-->
+
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../static/css/animate.css" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
+
+    <!-- Sweet Alert -->
+    <link href="../static/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+    <!--文件上传css-->
+    <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+    <link rel="stylesheet" href="../static/css/jquery.fileupload.css">
+    <link rel="stylesheet" href="../static/css/jquery.fileupload-ui.css">
+
+    <!--设置标签图标-->
+    <link href="../static/img/favicon.png" rel="shortcut icon"/>
+
+    <!-- 全局js -->
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/sweet-alert.min.js"></script>
+    <script src="../static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="../static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="../static/js/plugins/layer/layer.min.js"></script>
+
+    <!-- 自定义js -->
+    <script src="../static/js/hAdmin.js"></script>
+    <script src="../static/js/content.js"></script>
+
+    <!-- 第三方插件 -->
+    <script src="../static/js/plugins/pace/pace.min.js"></script>
+    <script src="../static/js/plugins/chosen/chosen.jquery.js"></script>
+    <script src="../static/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+
+    <!-- IonRangeSlider -->
+    <link href="../static/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
+    <link href="../static/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+    <script src="../static/js/plugins/chosen/chosen.jquery.js"></script>
+    <script src="../static/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+    <script src="../static/js/demo/form-advanced-demo.js"></script>
+
+
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeIn">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox-title">
+                    <h3>数据加工</h3>
+                </div>
+
+                <div class="ibox-content">
+                    <div class="hr-line-dashed"></div>
+
+                    开始时间：<input type="date" id="begin_time">
+                    <br><br>
+                    结束时间：<input type="date" id="end_time">
+                    <br><br>
+                    <button onclick="query_time()" id="btn_time" class="btn btn-primary btn-sm ">
+                        <i class="glyphicon glyphicon-upload"></i>
+                        <span>提交</span>
+                    </button>
+                    <br><br>
+                    该时间段共有<input id="paper_num" type="text" style="width:10%" readonly>篇文档
+
+                    <br>
+                     <button onclick="run_bat();" id="btn_upload" class="btn btn-primary btn-sm ">
+                            <i class="glyphicon glyphicon-upload"></i>
+                            <span>运行</span>
+                     </button>
+                    <div class="hr-line-dashed"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="myloading" hidden class="wrapper wrapper-content animated fadeIn">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <h3 style="color: #7266ba">
+                            正在处理,请稍后......
+                        </h3>
+                        <div class="page-container">
+                            <center><img src="../static/img/loading.svg"/></center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    $("#ionrange1").ionRangeSlider({
+        min: 0,
+        max: 10,
+        from: 2,
+        prettify: false,
+        hasGrid: true
+    });
+</script>
+
+<script>
+    function query_time() { //查询时间
+        var form = new FormData();
+        var begin_time = document.getElementById('begin_time');
+        var end_time = document.getElementById('end_time');
+        form.append("begin_time", begin_time.value);
+        form.append("end_time", end_time.value);
+
+        $.ajax({
+            url: "/user_input/query_time",
+            type: "post",
+            data: form,
+            timeout: 30000,  //10s
+            cache: false,
+            processData: false,
+            contentType: false,
+            beforeSend: function () {
+                $("#myloading").show();
+            },
+            success: function (data) {
+                $("#myloading").hide();
+                time_callback(data);
+            },
+            error: function (XMLHttpRequest, status) { //求完成后最终执行参数
+                $("#myloading").hide();
+                swal({
+                    title: "错误信息",
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonColor: '#DD6B55',
+                    text: "status:" + XMLHttpRequest.status + " textinfo:" + status
+                });
+            }
+        });
+    }
+
+    function time_callback(data) {
+        var status = data['status'];
+        var paper_num = data['paper_num'];
+        if (status) {
+            $('#paper_num').val(paper_num);
+        } else {
+            swal({
+                title: "错误信息",
+                type: "error",
+                showCancelButton: false,
+                confirmButtonColor: '#DD6B55',
+                text: '未检索到相关数据！'
+            });
+        }
+    }
+    
+    function run_bat() {
+        var total = document.getElementById('paper_num').value;
+        if (total>10000)
+        {
+            swal({
+                    title: "文档数超过10000，请重新调整",
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonColor: '#DD6B55',
+                    text: "status:" + XMLHttpRequest.status + " textinfo:" + status
+                });
+        }
+        else{
+            var form = new FormData();
+            var begin_time = document.getElementById('begin_time');
+            var end_time = document.getElementById('end_time');
+            form.append("begin_time", begin_time.value);
+            form.append("end_time", end_time.value);
+            $.ajax({
+                url: "/user_input/auto_pipeline",
+                type: "post",
+                data: form,
+                timeout: 300000000000000,  //10s
+                cache: false,
+                processData: false,
+                contentType: false,
+                beforeSend: function () {
+                    $("#myloading").show();
+                },
+                success: function (data) {
+                    $("#myloading").hide();
+                },
+                error: function (XMLHttpRequest, status) { //求完成后最终执行参数
+                    $("#myloading").hide();
+                    swal({
+                        title: "错误信息",
+                        type: "error",
+                        showCancelButton: false,
+                        confirmButtonColor: '#DD6B55',
+                        text: "status:" + XMLHttpRequest.status + " textinfo:" + status
+                    });
+                }
+            });
+
+        }
+    }
+</script>
+
+</html>

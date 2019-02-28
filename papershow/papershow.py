@@ -20,6 +20,10 @@ def main_view():
 def metadata_view():
     return render_template("metadata.html")
 
+@app.route('/user_input')
+def user_input_view():
+    return render_template("user_input.html")
+
 @app.route('/quotation')
 def quotation_view():
     return render_template("quotation.html")
@@ -55,6 +59,25 @@ def material_manage_view():
 @app.route('/test')
 def test_view():
     return render_template('test.html')
+
+from es_query import get_paper_num,run_pipeline
+@app.route('/user_input/auto_pipeline', methods=['POST'])
+def auto_pipeline():
+    begin_time = request.form.get('begin_time')
+    end_time = request.form.get('end_time')
+    run_pipeline(begin_time,end_time)
+    data = {}
+    data['status'] = True
+    return jsonify(data)
+
+@app.route('/user_input/query_time', methods=['POST'])
+def query_time_view():
+    data = {}
+    begin_time = request.form.get('begin_time')
+    end_time = request.form.get('end_time')
+    data['status'] = True
+    data['paper_num'] = get_paper_num(begin_time,end_time)
+    return jsonify(data)
 
 """quotation part"""
 from quotation_query import get_reference, get_paper_id1

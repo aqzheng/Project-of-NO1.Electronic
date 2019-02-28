@@ -16,8 +16,8 @@ SECRET_KEY = 'you-will-never-guess'
 host = "localhost"
 port = 3306
 user = "root"
-passwd = "1995328"
-dbname = "paper_repo"
+passwd = "950517"
+dbname = "mysql"
 
 figure_index_path = r'D:\PythonWorkPlace\ScientificFigure\data\figure_index'
 table_index_path = r'D:\PythonWorkPlace\ScientificFigure\data\table_index'

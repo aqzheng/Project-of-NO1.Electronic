@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+
+    <title>引文查询</title>
+
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html"/>
+    <![endif]-->
+
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../static/css/animate.css" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
+
+    <!-- Sweet Alert -->
+    <link href="../static/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+    <!--文件上传css-->
+    <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+    <link rel="stylesheet" href="../static/css/jquery.fileupload.css">
+    <link rel="stylesheet" href="../static/css/jquery.fileupload-ui.css">
+
+    <!--设置标签图标-->
+    <link href="../static/img/favicon.png" rel="shortcut icon"/>
+
+    <!-- 全局js -->
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/sweet-alert.min.js"></script>
+    <script src="../static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="../static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="../static/js/plugins/layer/layer.min.js"></script>
+
+    <!-- 自定义js -->
+    <script src="../static/js/hAdmin.js"></script>
+    <script src="../static/js/content.js"></script>
+
+    <!-- 第三方插件 -->
+    <script src="../static/js/plugins/pace/pace.min.js"></script>
+    <script src="../static/js/plugins/chosen/chosen.jquery.js"></script>
+    <script src="../static/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+
+    <!-- IonRangeSlider -->
+    <link href="../static/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
+    <link href="../static/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+    <script src="../static/js/plugins/chosen/chosen.jquery.js"></script>
+    <script src="../static/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+    <script src="../static/js/demo/form-advanced-demo.js"></script>
+
+
+</head>
+<body class="gray-bg" onload="load()">
+    <div class="wrapper wrapper-content animated fadeIn">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox-title">
+                    <h3>引文查询</h3>
+                </div>
+                <!--
+                <div class="ibox-content">
+                    <div class="hr-line-dashed"></div>
+                    <h5>上传文件</h5>
+                    <div class="page-container">
+                        <span class="btn btn-success fileinput-button">
+                            <i class="glyphicon glyphicon-plus"></i>
+                            <span>选择文件</span>
+                            <input type="file" name="myfile">
+                        </span>
+                        <button onclick="upload_file();" id="btn_upload" class="btn btn-primary btn-sm ">
+                            <i class="glyphicon glyphicon-upload"></i>
+                            <span>上传</span>
+                        </button>
+                        <span>&nbsp;&nbsp;目前仅支持文件类型：<strong>pdf</strong>&nbsp;&nbsp;</span>
+                        <a onclick='qquery()' class="btn btn-primary" type="submit" style="position:absolute; left:90%">查询</a>
+                    </div>
+                </div>
+                -->
+
+                <div class="ibox-content">
+                    <div class="hr-line-dashed"></div>
+                    <h5>输入查询标题：</h5>
+
+                    <div class="page-container">
+                        <input id="paper_title" type="text" style="width:60%">
+                        <button onclick="qquery();" id="btn_query" class="btn btn-primary" type="submit">
+                            <span>查询</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="ibox-content">
+                    <!--
+                    <div class="hr-line-dashed"></div>
+                    <h5>title</h5>
+                    <input id="title" type="text" style="width:100%" readonly>
+                    <div class="hr-line-dashed"></div>
+                    <h5>id</h5>
+                    <input id="paper_id" type="text" style="width:100%" readonly>
+                    -->
+                    <div class="hr-line-dashed"></div>
+                    <h5>引文列表</h5>
+                    <table class="table table-bordered" id="tb">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>reference_title</th>
+                                <!--<th>reference_id</th>-->
+                                <th>content</th>
+                                <th width="70px" >修改</th>
+                                <th width="80px" >审阅</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mytbody-reference">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="myloading" hidden class="wrapper wrapper-content animated fadeIn">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <h3 style="color: #7266ba">
+                            正在处理,请稍后......
+                        </h3>
+                        <div class="page-container">
+                            <center><img src="../static/img/loading.svg"/></center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    $("#ionrange1").ionRangeSlider({
+        min: 0,
+        max: 10,
+        from: 2,
+        prettify: false,
+        hasGrid: true
+    });
+</script>
+
+<script>
+
+    function load() {
+        console.log("Document Begin!");
+        var url = location.search;
+        if (url.indexOf("?") != -1) {
+            var paras = url.substr(1);
+            console.log(decodeURIComponent(paras.split("=")[1]));
+            $('#paper_title').val(decodeURIComponent(paras.split("=")[1]));
+            qquery();
+        }
+    }
+
+    function qquery() {  //查询
+        var input = document.getElementById('paper_title');
+        var form = new FormData();
+        form.append("paper_title", input.value);
+
+        $.ajax({
+            url: "/quotation/qquery",
+            type: "post",
+            data: form,
+            timeout: 30000,  //10s
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                qquery_callback(data);
+            },
+            error: function (XMLHttpRequest, status) { //求完成后最终执行参数
+                swal({
+                    title: "错误信息",
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonColor: '#DD6B55',
+                    text: "status:" + XMLHttpRequest.status + " textinfo:" + status
+                });
+            }
+        });
+    }
+
+    function qquery_callback(data) {
+        var status = data['status'];
+        //var paper_id = data['paper_id'];
+        var reference = data['reference'];
+        reference_msg = "";
+        if (status) {
+            $.each(reference, function (i, r) {
+                var c_id = "f_c_id" + (i+1);
+                var btn_id = "f_btn_id" + (i+1);
+                reference_msg += "<tr>\n" +
+                "<td id="+c_id+">" + r[0] + "</td>\n" +
+                "<td>" + r[1] + "</td>\n" +
+                "<td>" + r[2] + "</td>\n" +
+                "<td class='tab-reference-button'>" +
+                    "<button id=\"btn_update\" class=\"btn btn-info\" type=\"submit\">\n" +
+                    "                            <span>修改</span>\n</button></td>\n"+
+                    "<td class='check-reference-button'>";
+                if (r[3] == "1"){
+                    reference_msg += "<button id="+btn_id+" class=\"btn btn-success\" type=\"submit\" disabled = true style=\"width:70px\" onclick=\"f_btn(this)\">\n" +
+                    "                            <span>已审阅</span>\n</button></td>\n"+
+                "</tr>";
+                }else{
+                    reference_msg += "<button id="+btn_id+" class=\"btn btn-success\" type=\"submit\" style=\"width:70px\" onclick=\"f_btn(this)\">\n" +
+                    "                            <span>审阅</span>\n</button></td>\n"+
+                "</tr>";
+                }
+            });
+            $('#mytbody-reference').html(reference_msg);
+        } else {
+            //$('#title').val(file_name);
+            //$('#paper_id').val("");
+            $('#mytbody-reference').html("");
+            swal({
+                title: "错误信息",
+                type: "error",
+                showCancelButton: false,
+                confirmButtonColor: '#DD6B55',
+                text: '未检索到相关数据！'
+            });
+        }
+    }
+    
+    $("#tb").on("click","td",function (e) {
+        var target = $(e.currentTarget);
+        var tr = e.currentTarget.parentElement;
+        var td = $(tr).find("td");
+        var database_id= td.eq(0).text();
+        var reference_title = td.eq(1).text();
+        var reference_content = td.eq(2).text();
+        var file_name = document.getElementById('paper_title').value;
+        var file_name_split = file_name.split(" ");
+        var content_split = reference_content.split("&");
+        var paper_name = "";
+        var content = "";
+        for (var i=0;i<content_split.length-1;i++)
+            content += content_split[i] + "%26";
+        content += content_split[i];
+        for (var i=0; i<file_name_split.length-1; i++)
+            paper_name += file_name_split[i] + "%20";
+        paper_name += file_name_split[i];
+        if(target.hasClass('tab-reference-button'))
+        {
+            window.location.href = '/update_reference?paper_name='+paper_name+'&reference_title='+reference_title+'&reference_content='+content+'&database_id='+database_id;
+        }
+    })
+
+     function  f_btn(r) {
+        console.log("check button click!");
+        var paper_title = $('#paper_title').val();
+        //alert(paper_title);
+        var clickRow = r.parentNode.parentNode.rowIndex;//获取button行所在table的index
+        var c_id = 'f_c_id' + clickRow;
+        var reference_id = document.getElementById(c_id).innerHTML;
+        //alert(reference_id);
+
+        var form = new FormData();
+        form.append('paper_title', paper_title);
+        form.append("reference_id", reference_id);
+        $.ajax({
+            url: "/reference/check",
+            type: "post",
+            data: form,
+            timeout: 30000,  //10s
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+            },
+            error: function (XMLHttpRequest, status) { //求完成后最终执行参数
+                swal({
+                    title: "错误信息",
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonColor: '#DD6B55',
+                    text: "status:" + XMLHttpRequest.status + " textinfo:" + status
+                });
+            }
+        });
+        $(r).attr('disabled', true);
+        var btn_id = "f_btn_id" + clickRow;
+        document.getElementById(btn_id).innerHTML = "已审阅";
+    }
+
+</script>
+
+</html>

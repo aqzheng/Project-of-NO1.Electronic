@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+
+    <title>引文</title>
+
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html"/>
+    <![endif]-->
+
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../static/css/animate.css" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
+
+    <!-- Sweet Alert -->
+    <link href="../static/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
+    <!--文件上传css-->
+    <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+    <link rel="stylesheet" href="../static/css/jquery.fileupload.css">
+    <link rel="stylesheet" href="../static/css/jquery.fileupload-ui.css">
+
+    <!--设置标签图标-->
+    <link href="../static/img/favicon.png" rel="shortcut icon"/>
+
+    <!-- 全局js -->
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/sweet-alert.min.js"></script>
+    <script src="../static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="../static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="../static/js/plugins/layer/layer.min.js"></script>
+
+    <!-- 自定义js -->
+    <script src="../static/js/hAdmin.js"></script>
+    <script src="../static/js/content.js"></script>
+
+    <!-- 第三方插件 -->
+    <script src="../static/js/plugins/pace/pace.min.js"></script>
+    <script src="../static/js/plugins/chosen/chosen.jquery.js"></script>
+    <script src="../static/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+
+    <!-- IonRangeSlider -->
+    <link href="../static/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
+    <link href="../static/css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css" rel="stylesheet">
+    <script src="../static/js/plugins/chosen/chosen.jquery.js"></script>
+    <script src="../static/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+    <script src="../static/js/demo/form-advanced-demo.js"></script>
+
+
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeIn">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox-title">
+                    <h3>文档结构</h3>
+                </div>
+                <div class="ibox-content">
+                    <div class="hr-line-dashed"></div>
+                    <h5>上传文件</h5>
+                    <div class="page-container">
+                        <span class="btn btn-success fileinput-button">
+                            <i class="glyphicon glyphicon-plus"></i>
+                            <span>选择文件</span>
+                            <input type="file" name="myfile">
+                        </span>
+                        <button onclick="upload_file();" id="btn_upload" class="btn btn-primary btn-sm ">
+                            <i class="glyphicon glyphicon-upload"></i>
+                            <span>上传</span>
+                        </button>
+                        <span>&nbsp;&nbsp;目前仅支持文件类型：<strong>pdf</strong>&nbsp;&nbsp;</span>
+                        <a onclick='qquery()' class="btn btn-primary" type="submit" style="position:absolute; left:90%">查询</a>
+                    </div>
+                </div>
+
+                <div class="ibox-content">
+                    <div class="hr-line-dashed"></div>
+                    <h5>title</h5>
+                    <input id="title" type="text" style="width:100%" readonly>
+                    <div class="hr-line-dashed"></div>
+                    <h5>id</h5>
+                    <input id="paper_id" type="text" style="width:100%" readonly>
+                    <div class="hr-line-dashed"></div>
+                    <h5>引文列表</h5>
+                    <table class="table table-bordered" id="tb">
+                        <thead>
+                            <tr>
+                                <th>title</th>
+                                <th>id</th>
+                                <th>content</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mytbody-reference">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="myloading" hidden class="wrapper wrapper-content animated fadeIn">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <h3 style="color: #7266ba">
+                            正在处理,请稍后......
+                        </h3>
+                        <div class="page-container">
+                            <center><img src="../static/img/loading.svg"/></center>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    $("#ionrange1").ionRangeSlider({
+        min: 0,
+        max: 10,
+        from: 2,
+        prettify: false,
+        hasGrid: true
+    });
+</script>
+
+<script>
+    var file_name = "";
+    function upload_file() {
+        var files = $('input[name="myfile"]').prop('files'); //获取到文件列表
+        var file = files[0];
+        if (file === undefined) {
+            swal({
+                title: "提示信息",
+                type: "warning",
+                showCancelButton: false,
+                confirmButtonColor: '#DD6B55',
+                text: "请先选择一个文件"
+            });
+        }
+        else {
+            var form = new FormData();
+            form.append("myfile", file);
+            $.ajax({
+                url: "/upload",
+                type: "post",
+                data: form,
+                timeout: 30000,//10s
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    upload_callback(data);
+                },
+                error: function (XMLHttpRequest, status) { //求完成后最终执行参数
+                    swal({
+                        title: "错误信息",
+                        type: "error",
+                        showCancelButton: false,
+                        confirmButtonColor: '#DD6B55',
+                        text: "status:" + XMLHttpRequest.status + " textinfo:" + status
+                    });
+                    $("#myloading").hide();
+                }
+            });
+        }
+    }
+
+    function upload_callback(data) {
+        if (data['status']) {
+            swal({
+                title: "上传成功",
+                type: "success",
+                showCancelButton: false,
+                showConfirmButton: false,
+                timer: 900
+            });
+            //阻塞，同步
+            setTimeout(function () {
+                file_name = data['file_name'];
+                console.log(file_name);
+            }, 1000);
+
+        } else {
+            swal({
+                title: "错误信息",
+                type: "error",
+                showCancelButton: false,
+                confirmButtonColor: '#DD6B55',
+                text: data['desc']
+            });
+        }
+    }
+
+    function qquery() {  //查询
+        var form = new FormData();
+        form.append("file_name", file_name);
+
+        $.ajax({
+            url: "/quotation/qquery",
+            type: "post",
+            data: form,
+            timeout: 30000,  //10s
+            cache: false,
+            processData: false,
+            contentType: false,
+            beforeSend: function () {
+                $("#myloading").show();
+            },
+            success: function (data) {
+                $("#myloading").hide();
+                qquery_callback(data);
+            },
+            error: function (XMLHttpRequest, status) { //求完成后最终执行参数
+                $("#myloading").hide();
+                swal({
+                    title: "错误信息",
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonColor: '#DD6B55',
+                    text: "status:" + XMLHttpRequest.status + " textinfo:" + status
+                });
+            }
+        });
+    }
+
+    function qquery_callback(data) {
+        var status = data['status'];
+        var paper_id = data['paper_id'];
+        var reference = data['reference'];
+        reference_msg = "";
+        if (status) {
+            $('#title').val(file_name);
+            $('#paper_id').val(paper_id);
+            $.each(reference, function (i, r) {
+                reference_msg += "<tr>\n" +
+                "<td>" + r[0] + "</td>\n" +
+                "<td>" + r[1] + "</td>\n" +
+                "<td>" + r[2] + "</td>\n" +
+                "</tr>";
+            });
+            $('#mytbody-reference').html(reference_msg);
+        } else {
+            $('#title').val(file_name);
+            $('#paper_id').val("");
+            $('#mytbody-reference').html("");
+            swal({
+                title: "错误信息",
+                type: "error",
+                showCancelButton: false,
+                confirmButtonColor: '#DD6B55',
+                text: '未检索到相关数据！'
+            });
+        }
+    }
+</script>
+
+</html>

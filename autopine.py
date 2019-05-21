@@ -3,6 +3,7 @@ import requests
 import subprocess
 pdf_num = 100
 size = 5
+from src.chn_classify_workspace.tag_paper_chn import run_classifier
 def query_table(host, port, user, passwd, db, table, begin_time, end_time):
     connect = pymysql.Connect(
         host=host,
@@ -81,7 +82,7 @@ def insert_into_MirrorFileInfo(results, task_id):
     for i in range(len(results)):
         try:
             dt = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            sql_insert = 'INSERT INTO MirrorFileInfo (docid, task_id, task_begin_time, duplicate,bool_check) VALUES (%d, %d, "%s", %d,0)' % (results[i][0], task_id, dt, results[i][4])
+            sql_insert = 'INSERT INTO MirrorFileInfo (docid, task_id, task_begin_time, duplicate,bool_check,index_number,citation_number,figure_number,table_number) VALUES (%d, %d, "%s", %d,0,0,0,0,0)' % (results[i][0], task_id, dt, results[i][4])
             cursor.execute(sql_insert)
             connect.commit()
         except Exception as e:

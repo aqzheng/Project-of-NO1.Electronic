@@ -1,0 +1,93 @@
+.pager {
+    /*height: 28px;*/
+    padding: 20px 0;
+    /*background: #fff;*/
+}
+
+.pager > div {
+    /*height: 28px;*/
+    line-height: 26px;
+    font-size: 14px;
+    /*font-weight: 900;*/
+    color: #666;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    text-align: center;
+}
+
+.pager > div > ol {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    margin: 0;
+    padding: 3px 0;
+    list-style: none;
+}
+
+.pager > div > ol > li,
+.pager > div > button {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    padding: 0 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.pager > div > ol > li {
+    margin: 0 3px;
+    min-width: 20px;
+    max-width: 46px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    vertical-align: bottom;
+}
+
+.pager > div > ol > li.current {
+    border-color: #337ab7;
+    background: #337ab7;
+    color: #fcfcfc;
+    cursor: default;
+}
+
+.pager > div > ol > li:not(.current):hover,
+.pager > div > button:not(:disabled):hover {
+    background: #eee;
+}
+
+.pager > div > button {
+    margin: 3px;
+    height: 28px;
+    background: #fff;
+    color: #666;
+    vertical-align: top;
+}
+
+.pager > div > button:disabled {
+    cursor: not-allowed;
+    background: #ddd;
+}
+
+.pager > div > .jump-title {
+    margin-left: 10px;
+}
+
+.pager > div > .jump-input {
+    margin-top: 3px;
+    margin-right: 2px;
+    padding: 0;
+    box-sizing: content-box;
+    width: 45px;
+    height: 26px;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #666;
+    text-align: center;
+    outline: none;
+    vertical-align: top;
+}

@@ -26,6 +26,8 @@
 
     <!--设置标签图标-->
     <link href="../static/img/favicon.png" rel="shortcut icon"/>
+    <!--hjPager分页-->
+    <link rel="stylesheet" href="../static/js/HjPager/HjPager.min.css"/>
 
     <!-- 全局js -->
     <script src="../static/js/jquery.min.js"></script>
@@ -43,6 +45,7 @@
     <script src="../static/js/plugins/pace/pace.min.js"></script>
     <script src="../static/js/plugins/chosen/chosen.jquery.js"></script>
     <script src="../static/js/plugins/ionRangeSlider/ion.rangeSlider.min.js"></script>
+    <script src="../static/js/HjPager/HjPager.min.js"></script>
 
     <!-- IonRangeSlider -->
     <link href="../static/css/plugins/ionRangeSlider/ion.rangeSlider.css" rel="stylesheet">
@@ -96,12 +99,10 @@
                             <i class="glyphicon glyphicon-upload"></i>
                             <span>运行</span>
                     </button>
-                    <br><br>
-                    当前处理：<input id="paper_flash_num" type="text" style="width:8.5%" readonly>篇文档
-                    &emsp;&emsp;&emsp;&emsp;
+                    <br><br>&emsp;&emsp;&emsp;&emsp;
                     <button onclick="run_flash();" id="btn_run_flash" class="btn btn-primary btn-sm ">
                             <i class="glyphicon glyphicon-upload"></i>
-                            <span>刷新</span>
+                            <span>当前任务查询</span>
                     </button>
                     <div class="hr-line-dashed"></div>
                     <div class="ibox-content">
@@ -110,22 +111,18 @@
                     <table class="table table-bordered" id="tb-1">
                         <thead>
                             <tr>
-                                <th width="50px">文献id</th>
-                                <th >文献标题</th>
-                                <th >分类号</th>
-                                <th >任务id</th>
-                                <th >开始时间</th>
-                                <th >标引词</th>
-                                <th >引文</th>
-                                <th >图</th>
-                                <th >表</th>
-                                <th >重复</th>
-                                <th width="80px" >审阅</th>
+                                <th width="150px">任务id</th>
+                                <th width="150px">任务开始时间</th>
+                                <th width="150px">已处理文档数量</th>
+                                <th width="150px">已处理引文数量</th>
+                                <th width="150px">已处理图数量</th>
+                                <th width="150px">已处理表数量</th>
                             </tr>
                         </thead>
                         <tbody id="mytbody-metadata">
                         </tbody>
                     </table>
+                    <div class="pager" id="hjPager"></div>
                 </div>
             </div>
         </div>
@@ -247,7 +244,7 @@
             }
         }
     }
-    
+
     function run_bat() {
         var form = new FormData();
         var begin_time = document.getElementById('begin_time');
@@ -298,7 +295,7 @@
     function run_flash(){
         var form = new FormData();
         $.ajax({
-            url: "/user_input/flash",
+            url: "/user_input/flash_now",
             type: "post",
             data: form,
             timeout: 30000,  //10s
@@ -324,35 +321,16 @@
         var status = data['status'];
         console.log(status);
         var metadatas = data['metadata'];
-        var paper_flash_num = data['num'];
         var metadata_msg = "";
         if (status) {
-            $('#paper_flash_num').val(paper_flash_num);
             $.each(metadatas, function (i, f) {
-                var doc_id = "doc_id" + (i+1);
-                var task_id = "task_id" + (i+1);
-                var btn_id = "btn_id" + (i+1);
                 metadata_msg += "<tr>\n" +
-                "<td id="+doc_id+">" + f[0] + "</td>\n" +
+                "<td>" + f[0] + "</td>\n" +
                 "<td>" + f[1] + "</td>\n" +
                 "<td>" + f[2] + "</td>\n" +
-                "<td id="+task_id+">" + f[3] + "</td>\n" +
+                "<td>" + f[3] + "</td>\n" +
                 "<td>" + f[4] + "</td>\n" +
-                "<td>" + f[5] + "</td>\n" +
-                    "<td class='tab-citation'><a href='#'>" + f[6] + "</a></td>\n" +
-                    "<td class='tab-figure'><a href='#'>" + f[7] + "</a></td>\n" +
-                    "<td class='tab-table'><a href='#'>" + f[8] + "</a></td>\n" +
-                    "<td>" + f[9] + "</td>\n" +
-                "<td class='check-button'>";
-                if (f[10] == "1"){
-                    metadata_msg += "<button id="+btn_id+" class=\"btn btn-success\" type=\"submit\" disabled = true style=\"width:70px\" onclick=\"f_btn(this)\">\n" +
-                    "                            <span>已审阅</span>\n</button></td>\n"+
-                "</tr>";
-                }else{
-                    metadata_msg += "<button id="+btn_id+" class=\"btn btn-success\" type=\"submit\" style=\"width:70px\" onclick=\"f_btn(this)\">\n" +
-                    "                            <span>审阅</span>\n</button></td>\n"+
-                "</tr>";
-                }
+                "<td>" + f[5] + "</td>\n" ;
             });
             $('#mytbody-metadata').html(metadata_msg);
         } else {
@@ -366,71 +344,6 @@
             });
         }
     }
-
-    $("#tb-1").on("click", "td", function(e){
-        //console.log(e);
-        var target = $(e.currentTarget);
-        //console.log(target, target[0]);
-        var tr = e.currentTarget.parentElement;
-        var td = $(tr).find("td");
-        var doc_id = td.eq(0).text();
-        var paper_title = td.eq(1).text();
-        //console.log(doc_id);
-        //console.log(paper_title);
-        //var newWindow = window.open('');
-        var paper_name_split = paper_title.split(" ");
-        var paper_name = "";
-        for (var i=0; i<paper_name_split.length-1; i++)
-            paper_name += paper_name_split[i] + "%20";
-        paper_name += paper_name_split[i];
-
-        if (target.hasClass('tab-citation')) {
-            window.location.href = '/quotation?paper_name='+paper_name;
-        } else if(target.hasClass('tab-figure')) {
-            window.location.href = '/material?paper_name='+paper_name;
-        } else if(target.hasClass('tab-table')){
-            window.location.href = '/material?paper_name='+paper_name;
-        }
-        return false;
-    });
-
-    function  f_btn(r) {
-        console.log("check button click!");
-        //alert(paper_title);
-        var clickRow = r.parentNode.parentNode.rowIndex;//获取button行所在table的index
-        var doc_id = 'doc_id' + clickRow;
-        var task_id = 'task_id' + clickRow;
-        var r_doc_id = document.getElementById(doc_id).innerHTML;
-        var r_task_id = document.getElementById(task_id).innerHTML;
-
-        var form = new FormData();
-        form.append('doc_id', r_doc_id);
-        form.append("task_id", r_task_id);
-        $.ajax({
-            url: "/metadata/check",
-            type: "post",
-            data: form,
-            timeout: 30000,  //10s
-            cache: false,
-            processData: false,
-            contentType: false,
-            success: function (data) {
-            },
-            error: function (XMLHttpRequest, status) { //求完成后最终执行参数
-                swal({
-                    title: "错误信息",
-                    type: "error",
-                    showCancelButton: false,
-                    confirmButtonColor: '#DD6B55',
-                    text: "status:" + XMLHttpRequest.status + " textinfo:" + status
-                });
-            }
-        });
-        $(r).attr('disabled', true);
-        var btn_id = "btn_id" + clickRow;
-        document.getElementById(btn_id).innerHTML = "已审阅";
-    }
-
 </script>
 
 </html>

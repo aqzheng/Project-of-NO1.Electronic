@@ -16,6 +16,10 @@ def index_view():
 def main_view():
     return render_template("main.html")
 
+@app.route('/taskall_query')
+def taskall_query_view():
+    return render_template("taskall_query.html")
+
 @app.route('/user_input')
 def user_input_view():
     return render_template("user_input.html")
@@ -52,6 +56,10 @@ def update_figure_view():
 def table_query_view():
     return render_template("table_query.html")
 
+@app.route('/task_query')
+def task_query_view():
+    return render_template("task_query.html")
+
 @app.route('/update_table')
 def update_table_view():
     return render_template("update_table.html")
@@ -67,6 +75,18 @@ def material_manage_view():
 @app.route('/test')
 def test_view():
     return render_template('test.html')
+
+from metadata_query import get_taskall_query
+@app.route('/taskall_query/taskall_query', methods=['POST'])
+def taskall_query():
+    data = {}
+    metadata_list_all = get_taskall_query()
+    data['metadata'] = metadata_list_all
+    if len(data['metadata']) == 0:
+        data['status'] = False
+    else:
+        data['status'] = True
+    return jsonify(data)
 
 @app.route('/user_input/run_reset', methods=['POST'])
 def run_reset():
@@ -323,13 +343,29 @@ def download(filename):
     return render_template('404.html')
 
 """metadata flash part"""
-from metadata_query import  get_metadata_all
+from metadata_query import  get_metadata_now
+@app.route('/user_input/flash_now', methods=['POST'])
+def flash_now():
+    data = {}
+    metadata_list_all = get_metadata_now()
+    data['metadata'] = metadata_list_all
+    if len(data['metadata']) == 0:
+        data['status'] = False
+    else:
+        data['status'] = True
+    return jsonify(data)
+
+from metadata_query import  get_metadata_all, get_paper_number
 @app.route('/user_input/flash', methods=['POST'])
 def flash():
     data = {}
-    metadata_list_all = get_metadata_all()
+    pageSize = int(request.form.get('pageSize'))
+    pageIndex = int(request.form.get('pageIndex'))
+    task_id = int(request.form.get('task_id'))
+    data['paper_num'] = get_paper_number(task_id)
+    metadata_list_all = get_metadata_all(task_id, (pageIndex-1)*pageSize, pageIndex*pageSize)
     data['metadata'] = metadata_list_all
-    data['num'] = len(metadata_list_all)
+    print(data)
     if len(data['metadata']) == 0:
         data['status'] = False
     else:
@@ -388,5 +424,5 @@ def server_interval(error):
 
 if __name__ == '__main__':
     #app.run(debug=True)
-    # app.run(host='0.0.0.0', port=5000)
-    app.run()
+    app.run(host='0.0.0.0', port=5000)
+    # app.run()
